@@ -1,30 +1,17 @@
-"""
-Feature definitions for the Iris feature repository:
-entity, data source, and feature view (schema + TTL).
-"""
+# features.py
 from datetime import timedelta
-from feast import (
-    Entity,
-    FeatureView,
-    Field,
-    FileSource,
-    FeatureService,
-)
+from feast import Entity, FeatureService, FeatureView, Field, FileSource
 from feast.types import Float32, String
 from feast.value_type import ValueType
 
-# ============================================================
 # ENTITY
-# ============================================================
 sample = Entity(
     name="sample_id",
     join_keys=["sample_id"],
     value_type=ValueType.INT64,
 )
 
-# ============================================================
 # DATA SOURCE
-# ============================================================
 iris_source = FileSource(
     name="iris_features_source",
     path="data/iris_features.parquet",
@@ -32,9 +19,7 @@ iris_source = FileSource(
     created_timestamp_column="created_timestamp",
 )
 
-# ============================================================
-# FEATURE VIEW 1: Original Iris measurements
-# ============================================================
+# FEATURE VIEW 1: Original Measurements
 iris_measurements_fv = FeatureView(
     name="iris_measurements",
     entities=[sample],
@@ -49,9 +34,7 @@ iris_measurements_fv = FeatureView(
     online=True,
 )
 
-# ============================================================
-# FEATURE VIEW 2: Engineered features
-# ============================================================
+# FEATURE VIEW 2: Engineered Features
 iris_engineered_fv = FeatureView(
     name="iris_engineered_features",
     entities=[sample],
@@ -66,9 +49,7 @@ iris_engineered_fv = FeatureView(
     online=True,
 )
 
-# ============================================================
 # FEATURE SERVICE
-# ============================================================
 iris_feature_service = FeatureService(
     name="iris_feature_service",
     features=[
